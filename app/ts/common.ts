@@ -12,7 +12,7 @@ let drag = new DragDrop();
 // let add = new AddCustomBranch();
 
 tree.writeln();
-tree.deleteCategory();
+tree.deleteBranch();
 click.clickToggle();
 drag.dragDrop();
 // add.addBranch();

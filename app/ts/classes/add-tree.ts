@@ -35,6 +35,7 @@ export class AddTree {
         this.app.appendChild(this.firstUl);
         this.addCategory();
     }
+
     defaultAddTree() {
         for (let i = 0; i < this.tree.changeTree().length; i++) {
             this.x = this.tree.changeTree();
@@ -57,16 +58,23 @@ export class AddTree {
             let liId = `vit_${li.id}`;
             let liText = li.category;
             li = this.firstUl.querySelector(`#${liId}`);
+
+            let buttonMinus;
             if (!li) {
                 li = document.createElement('li');
+                buttonMinus = document.createElement('button');
+                buttonMinus.classList.add('delete-button');
+                buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>'
                 li.setAttribute('draggable', 'true');
                 li.id = liId;
             }
             this.countId = +(liId.slice(4));
             li.insertBefore(document.createTextNode(liText), li.firstChild);
+            li.appendChild(buttonMinus);
             ul.appendChild(li);
         }
     }
+
 
     addCategory() {
         this.button.addEventListener('click', () => {
@@ -74,7 +82,6 @@ export class AddTree {
             let inputCatVal = this.inputCategory.value;
             for (let j = 0; j < this.x.length; j++) {
                 if (inputCatVal == this.x[j].category) {
-                    console.log(true)
                     this.customParentId = this.x[j].id;
                     break;
                 } else {
@@ -89,7 +96,6 @@ export class AddTree {
                 'parent': this.customParentId // число 
             };
 
-            console.log(this.categoryObj);
             this.x.push(this.categoryObj);
             this.li2 = document.createElement('li');
             this.li2.setAttribute('draggable', 'true');
@@ -105,7 +111,6 @@ export class AddTree {
                 parentLi.setAttribute('draggable', 'true');
                 parentLi.appendChild(this.ul2);
                 parentLi.lastChild.appendChild(this.li2);
-
             } else {
                 parentLi.lastChild.appendChild(this.li2);
 
@@ -113,16 +118,23 @@ export class AddTree {
 
         });
     }
-    deleteCategory() {
 
-        // var element = document.getElementById("vit_5");
-        // let button = document.getElementById('but');
-        // button.onclick = () => {
-        //     while (element.firstChild) {
-        //         element.removeChild(element.firstChild);
-        //     }
+    deleteBranch() {
+        console.log(this.tree.changeTree()[1])
+        this.tree.changeTree().forEach.call(document.querySelectorAll(".delete-button"),
+            function (inner: any) {
+                inner.addEventListener("click", (el: any) => {
+                    let parrentOfButton = inner.parentNode;
+                    let idOfToggleElement = +(parrentOfButton.id.slice(4));
+                    console.log(inner);
+                    console.log(this);
 
-        // }
+                    // parrentOfButton.
+                    parrentOfButton.remove();
+                    // path.remove();
+
+                })
+            });
     }
 
 

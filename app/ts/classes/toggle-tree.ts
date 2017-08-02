@@ -11,7 +11,6 @@ export class ToggleTree {
             inner.addEventListener("click", function (el: any) {
                 let target = el.target;
                 target == inner && target.classList.toggle("on-open");
-                console.log(inner);
             })
         });      
 
