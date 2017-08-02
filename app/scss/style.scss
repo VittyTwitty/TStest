@@ -1,3 +1,24 @@
 body {
-    background-color: red;
+    object-fit: cover;
+    display: flex;
+}
+
+li > ul {
+    display: block;
+}
+li.on-open > ul {
+    display: none;
+}
+.toggle{
+    cursor: pointer;
+}
+.toggle > ul {
+    cursor: default;
+    color: #0a0a0a;
+}
+.change-position {
+    border: 1px solid red;
+}
+select {
+    display: block;
 }

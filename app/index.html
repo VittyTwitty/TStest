@@ -1,15 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-</head>  
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+</head>
 
 <body>
-    <div class="qwert">click</div>   
+    <section class="app-wrapper" id="app-wrapper">
+        <select name="category-select" id="category-select">
+            
+        </select> 
+        <div id="app"></div>
+        <br>
+        <input type="text" id="inpCat" placeholder="Category">
+        <input type="text" id="inpName" placeholder="Name">
+        <button id="buttonAdd">add</button>
+    </section>
+
+
+
+
 </body>
 
 </html>
