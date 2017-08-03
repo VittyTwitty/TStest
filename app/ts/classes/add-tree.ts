@@ -142,13 +142,16 @@ export class AddTree {
                     // console.log(arrayOfBranches)
 
                     arr1(arrayOfBranches, idOfToggleElement);
-                    console.log(arrayOfBranches)
                     let qwer = arr1(arrayOfBranches, idOfToggleElement);
-                    console.log(qwer)
+                    let kusokGovna = arrayOfBranches.map(function (elem) {
+                        for (let i = 0; i < qwer.length; i++) {
+                            if (elem.id != qwer[i].id) {
+                                return elem;
+                            }
+                        }
+                    })
+                    console.log(kusokGovna);
 
-
-
-                    arrayOfBranches = arrayOfBranches.filter(id => !qwer);
                 })
             });
 
