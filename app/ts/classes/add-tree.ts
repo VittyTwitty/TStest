@@ -68,7 +68,9 @@ export class AddTree {
                 li.setAttribute('draggable', 'true');
                 li.id = liId;
             }
+
             this.countId = +(liId.slice(4));
+
             li.insertBefore(document.createTextNode(liText), li.firstChild);
             li.appendChild(buttonMinus);
             ul.appendChild(li);
@@ -78,7 +80,9 @@ export class AddTree {
 
     addCategory() {
         this.button.addEventListener('click', () => {
+
             this.countId++;
+
             let inputCatVal = this.inputCategory.value;
             for (let j = 0; j < this.x.length; j++) {
                 if (inputCatVal == this.x[j].category) {
@@ -120,23 +124,81 @@ export class AddTree {
     }
 
     deleteBranch() {
-        console.log(this.tree.changeTree()[1])
-        this.tree.changeTree().forEach.call(document.querySelectorAll(".delete-button"),
+        // console.log(this.x)
+        let arrayOfBranches = this.x;
+        this.x.forEach.call(document.querySelectorAll(".delete-button"),
             function (inner: any) {
                 inner.addEventListener("click", (el: any) => {
                     let parrentOfButton = inner.parentNode;
                     let idOfToggleElement = +(parrentOfButton.id.slice(4));
-                    console.log(inner);
-                    console.log(this);
+                    // console.log(inner);
+                    // console.log(arrayOfBranches.length);
 
                     // parrentOfButton.
-                    parrentOfButton.remove();
-                    // path.remove();
+                    // parrentOfButton.remove();
 
+                    // path.remove();
+                    // delArr(arrayOfBranches, idOfToggleElement);
+                    // console.log(arrayOfBranches)
+
+                    arr1(arrayOfBranches, idOfToggleElement);
+                    console.log(arrayOfBranches)
+                    let qwer = arr1(arrayOfBranches, idOfToggleElement);
+                    console.log(qwer)
+
+
+
+                    arrayOfBranches = arrayOfBranches.filter(id => !qwer);
                 })
             });
+
+        function arr1(array: any, id: number) {
+            let objIndex: any[] = [];
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].id == id) {
+                    objIndex.push(array[i].id);
+                }
+                if (array[i].parent == id) {
+                    objIndex.push(...arr1(array, array[i].id));
+                }
+            }
+            console.log(objIndex)
+            return objIndex;
+        }
+
     }
 
 
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // delArrBranch(array: any[], label: any) {
+    //     for (let i = 0; i < this.tree.changeTree().length; i++) {
+    //         let item = this.tree.changeTree()[i];
+    //     }
+
+    // }
+
+
+
+
+}

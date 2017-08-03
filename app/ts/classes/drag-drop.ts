@@ -11,7 +11,7 @@ function dropImg(ev: any) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
-    console.log('2')
+    console.log('2');
 }
 
 export class DragDrop {
