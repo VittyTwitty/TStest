@@ -13,7 +13,7 @@ module.exports = {
         contentBase: path.resolve(__dirname, 'app'),
     },
     entry: {
-        index: './ts/common.ts'
+        index: './ts/app.ts'
     },
     output: {
         filename: 'js/[name].bundle.js',
