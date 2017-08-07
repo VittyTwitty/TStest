@@ -20,7 +20,10 @@ function dropElement(ev: any) {
     ev.target.style.color = "";
     let ul = document.createElement('ul');
     ul.appendChild(document.getElementById(data));
-    let tree = JSON.parse(localStorage.getItem("tree"))
+    ev.target.appendChild(ul);
+
+    let tree = JSON.parse(localStorage.getItem("tree"));
+
     if (tree) {
         thisTree = tree;
     } else {
@@ -36,13 +39,11 @@ function dropElement(ev: any) {
             el['parent'] = parent;
         }
     });
-    ev.target.appendChild(ul);
-    console.log(tree)
 
 
-    console.log(ev)
     let ar = thisTree;
     localStorage.setItem("tree", JSON.stringify(ar))
+    console.log(ar)
 
 }
 
@@ -51,7 +52,6 @@ function dragEnter(ev: any) {
 
     ev.target.style.border = "1px dotted #F44336";
     ev.target.style.color = "#F44336"
-    console.log('red');
 
 }
 

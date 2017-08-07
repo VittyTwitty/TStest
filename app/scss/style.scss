@@ -68,10 +68,8 @@ button.delete-button {
   outline: none;
   transition: all .5s;
   &:focus {
-    border: 1px solid #fff;
-    border-bottom: 1px solid #FF5624;
+    border: 1px solid #FF5624;
     box-shadow: inset 0px -3px #FF5624;
-
   }
 }
 
