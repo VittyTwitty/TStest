@@ -19,13 +19,10 @@ export class AddTree {
     public customParentId: number;
     public div: any;
 
+    public buttonMinus: any;
+    public buttonPlus: any;
     constructor() {
-        this.tree = JSON.parse(localStorage.getItem("myKey"));
-        if (localStorage) {
-            var returnObj = JSON.parse(localStorage.getItem("myKey"));
-            this.x = returnObj;
-        }
-        console.log(returnObj)
+        this.tree = new AddArrayService();
 
     }
 
@@ -43,23 +40,24 @@ export class AddTree {
         this.addCategory();
     }
 
+    createButtons() {
+        this.buttonMinus = document.createElement('button');
+        this.buttonMinus.classList.add('delete-button');
+        this.buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>';
+
+        this.buttonPlus = document.createElement('button');
+        this.buttonPlus.classList.add('button-plus');
+        this.buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
+    }
     defaultAddTree() {
-        if(localStorage) {
-            console.log(this.x);
-            console.log(this.tree);
-        } else {
-            console.log('Local false')
+        for (let i = 0; i < this.tree.changeTree().length; i++) {
 
-        }
-        for (let i = 0; i < this.tree.length; i++) {
-
-            
-            let li = this.tree[i];
+            this.x = this.tree.changeTree();
+            let li = this.tree.changeTree()[i];
             let parId = `vit_${li.parent}`;
             let liParent = this.firstUl.querySelector(`#${parId}`);
             if (!liParent) {
                 liParent = document.createElement('li');
-
                 liParent.id = parId;
                 this.firstUl.appendChild(liParent);
             };
@@ -74,77 +72,27 @@ export class AddTree {
             let liText = `${li.category}`;
             li = this.firstUl.querySelector(`#${liId}`);
 
-            let buttonMinus;
-            let buttonPlus;
             if (!li) {
                 li = document.createElement('li');
-                buttonMinus = document.createElement('button');
-                buttonMinus.classList.add('delete-button');
-                buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>';
 
-                buttonPlus = document.createElement('button');
-                buttonPlus.classList.add('button-plus');
-                buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
+                li.className = 'toggle';
+                this.createButtons();
 
                 li.setAttribute('draggable', 'true');
                 li.id = liId;
+                console.log(li)
             }
 
             this.countId = +(liId.slice(4));
 
             li.insertBefore(document.createTextNode(liText), li.firstChild);
-            li.appendChild(buttonMinus);
-            li.appendChild(buttonPlus);
+            li.appendChild(this.buttonMinus);
+            li.appendChild(this.buttonPlus);
             ul.appendChild(li);
         }
 
     }
 
-
-    // addCategory() {
-    //     this.button.addEventListener('click', () => {
-
-    //         this.countId++;
-
-    //         let inputCatVal = this.inputCategory.value;
-    //         for (let j = 0; j < this.x.length; j++) {
-    //             if (inputCatVal == this.x[j].category) {
-    //                 this.customParentId = this.x[j].id;
-    //                 break;
-    //             } else {
-    //                 this.customParentId = 0;
-    //             }
-    //         };
-    //         let inputNameVal = this.inputName.value;
-
-    //         this.categoryObj = {
-    //             'id': this.countId,
-    //             'category': inputNameVal,  //строка
-    //             'parent': this.customParentId // число 
-    //         };
-
-    //         this.x.push(this.categoryObj);
-    //         this.li2 = document.createElement('li');
-    //         this.li2.setAttribute('draggable', 'true');
-    //         this.li2.setAttribute('id', `vit_${this.categoryObj.id}`);
-    //         this.li2.innerText = `${this.categoryObj.category}`;
-
-    //         this.ul2 = document.createElement('ul');
-
-    //         let parentLi = this.firstUl.querySelector(`#vit_${this.categoryObj.parent}`);
-
-    //         if (parentLi.childElementCount == 0) {
-    //             parentLi.className = 'toggle';
-    //             parentLi.setAttribute('draggable', 'true');
-    //             parentLi.appendChild(this.ul2);
-    //             parentLi.lastChild.appendChild(this.li2);
-    //         } else {
-    //             parentLi.lastChild.appendChild(this.li2);
-
-    //         }
-
-    //     });
-    // }
     addCategory() {
         let arrayOfBranches = this.x;
         let countId = this.countId;
@@ -155,7 +103,7 @@ export class AddTree {
         let li2, ul2;
         let firstUl = this.firstUl;
 
-        this.x.forEach.call(document.querySelectorAll(".button-plus"),
+        arrayOfBranches.forEach.call(document.querySelectorAll(".button-plus"),
             function (inner: any) {
                 inner.addEventListener("click", (el: any) => {
                     let parrentOfButton = inner.parentNode;
@@ -187,34 +135,26 @@ export class AddTree {
                     let buttonPlus;
 
                     if (parentLi.childElementCount == 2) {
-                        console.log('CHILDREN 0')
                         parentLi.className = 'toggle';
                         parentLi.setAttribute('draggable', 'true');
                         parentLi.appendChild(ul2);
                         parentLi.lastChild.appendChild(li2);
                     } else {
-                        console.log('CHILDREN SOME')
                         parentLi.lastChild.appendChild(li2);
                     }
-
-
 
                     buttonMinus = document.createElement('button');
                     buttonMinus.classList.add('delete-button');
                     buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>';
 
+
                     buttonPlus = document.createElement('button');
                     buttonPlus.classList.add('button-plus');
                     buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
 
-
-
                     li2.appendChild(buttonMinus);
                     li2.appendChild(buttonPlus);
-
-                    var serialObj = JSON.stringify(arrayOfBranches)
-                    localStorage.setItem('myKey', serialObj)
-
+                    console.log(arrayOfBranches)
 
                 })
             });
@@ -222,19 +162,25 @@ export class AddTree {
     deleteBranch() {
         let arrayOfBranches = this.x;
         let difArray = new ArrayDifService();
-        this.x.forEach.call(document.querySelectorAll(".delete-button"),
-            function (inner: any) {
-                inner.addEventListener("click", (el: any) => {
-                    let parrentOfButton = inner.parentNode;
-                    let idOfToggleElement = +(parrentOfButton.id.slice(4));
-                    parrentOfButton.remove();
-                    let arrayOfDeletingId = arr1(arrayOfBranches, idOfToggleElement);
+        console.log(this.x)
+        arrayOfBranches.forEach.call(document.querySelectorAll(".delete-button"), addEvLis);
+        function addEvLis(inner: any) {
 
-                    difArray.difference(arrayOfBranches, arrayOfDeletingId);
+            inner.addEventListener("click", function () {
+                console.log(arrayOfBranches)
 
-                    console.log(arrayOfBranches);
-                })
+                let parrentOfButton = inner.parentNode;
+                let idOfToggleElement = +(parrentOfButton.id.slice(4));
+                parrentOfButton.remove();
+                let arrayOfDeletingId = arr1(arrayOfBranches, idOfToggleElement);
+                difArray.difference(arrayOfBranches, arrayOfDeletingId);
+
             });
+
+
+
+        }
+
 
         function arr1(array: any, id: number) {
             let objIndex: any[] = [];
@@ -250,38 +196,4 @@ export class AddTree {
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // delArrBranch(array: any[], label: any) {
-    //     for (let i = 0; i < this.tree.changeTree().length; i++) {
-    //         let item = this.tree.changeTree()[i];
-    //     }
-
-    // }
-
-
-
-
 }
