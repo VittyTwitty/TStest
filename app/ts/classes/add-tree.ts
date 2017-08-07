@@ -1,7 +1,7 @@
-import { AddArrayService } from '../service/add-array-service';
-import { ToggleTree } from './toggle-tree';
-import { Category } from "../models/category.model";
-import { ArrayDifService } from "../service/array-dif-service";
+import {AddArrayService} from '../service/add-array-service';
+import {ToggleTree} from './toggle-tree';
+import {Category} from "../models/category.model";
+import {ArrayDifService} from "../service/array-dif-service";
 
 export class AddTree {
     public difArray: ArrayDifService;
@@ -18,6 +18,7 @@ export class AddTree {
     public ul2: any;
     public customParentId: number;
     public div: any;
+    public input2: any;
 
     public buttonMinus: any;
     public buttonPlus: any;
@@ -36,12 +37,10 @@ export class AddTree {
         this.defaultAddTree();
 
 
-
         this.firstUl.firstChild.insertBefore(document.createTextNode('Machines'), this.firstUl.firstChild.firstChild);
         this.app.appendChild(this.firstUl);
         this.addCategory();
     }
-
 
 
     createButtons() {
@@ -53,6 +52,7 @@ export class AddTree {
         this.buttonPlus.classList.add('button-plus');
         this.buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
     }
+
     defaultAddTree() {
         for (let i = 0; i < this.tree.changeTree().length; i++) {
 
@@ -64,14 +64,16 @@ export class AddTree {
                 liParent = document.createElement('li');
                 liParent.id = parId;
                 this.firstUl.appendChild(liParent);
-            };
+            }
+            ;
             let ul = liParent.querySelector('ul');
             if (!ul) {
                 liParent.className = 'toggle';
                 liParent.setAttribute('draggable', 'true');
                 ul = document.createElement('ul');
                 liParent.appendChild(ul);
-            };
+            }
+            ;
             let liId = `vit_${li.id}`;
             let liText = `${li.category}`;
             li = this.firstUl.querySelector(`#${liId}`);
@@ -97,40 +99,55 @@ export class AddTree {
 
     }
 
+
+    findAllButtons() {
+        let buttons = document.querySelectorAll(".button-plus");
+        for (var i = 0; i < buttons.length; i++) {
+            var el = buttons[i];
+            console.log(this.input2.value.length)
+            if (this.input2.value.length == 0) {
+                this.keyAps(el, true);
+            } else {
+                this.keyAps(el, false);
+
+            }
+
+        }
+    }
+
     keyAps(but: any, toggle: boolean) {
         but.disabled = toggle;
     }
+
     toggleAddButton() {
 
-        let input2 = <HTMLInputElement>document.getElementById('inpCat');
-        input2.addEventListener('keyup', () => {
+        this.input2 = <HTMLInputElement>document.getElementById('inpCat');
+        this.input2.addEventListener('keyup', () => {
+            console.log('toggle')
             let buttons = document.querySelectorAll(".button-plus");
-            for (var i = 0; i < buttons.length; i++) {
-                var el = buttons[i];
-                console.log(input2.value.length)
-                if (input2.value.length == 0) {
-                    this.keyAps(el, true);
-                } else {
-                    this.keyAps(el, false);
-
-                }
-
-            }
+            this.findAllButtons()
         });
     }
 
+    readInputValue(par: any) {
+        let input = <HTMLInputElement>document.getElementById('inpCat');
+        if (par) {
+            input.value = '';
+            this.findAllButtons()
 
+            return;
+        }
+        return input.value;
+
+    }
 
     addCategory() {
         let arrayOfBranches = this.x;
-        let difArray = new ArrayDifService();
         let input;
-        let inputCatVal;
         let obj = this.categoryObj;
         let li2, ul2;
         let firstUl = this.firstUl;
         let self = this;
-
 
 
         arrayOfBranches.forEach.call(document.querySelectorAll(".button-plus"),
@@ -151,8 +168,8 @@ export class AddTree {
 
                     obj = {
                         'id': self.countId,
-                        'category': inputCatVal,  //строка
-                        'parent': idOfToggleElement// число 
+                        'category': inputCatVal,
+                        'parent': idOfToggleElement
                     };
 
 
@@ -192,7 +209,9 @@ export class AddTree {
 
                     li2.appendChild(buttonMinus);
                     li2.appendChild(buttonPlus);
-                    console.log(arrayOfBranches)
+                    self.readInputValue(true);
+
+                    console.log(arrayOfBranches);
 
                 })
             });
@@ -220,7 +239,7 @@ export class AddTree {
             obj = {
                 'id': self.countId,
                 'category': inputCatVal,  //строка
-                'parent': idOfToggleElement// число 
+                'parent': idOfToggleElement// число
             };
 
 
@@ -265,6 +284,7 @@ export class AddTree {
         })
 
     }
+
     deleteFich(ele: any) {
         let arrayOfBranches = this.x;
         let difArray = new ArrayDifService();
@@ -304,6 +324,7 @@ export class AddTree {
         console.log(this.x);
 
         arrayOfBranches.forEach.call(document.querySelectorAll(".delete-button"), addEvLis);
+
         function addEvLis(inner: any) {
             inner.addEventListener("click", function () {
                 console.log(arrayOfBranches)

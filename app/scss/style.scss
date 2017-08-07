@@ -1,62 +1,77 @@
 body {
-    object-fit: cover;
-    display: flex;
-    font-family: 'PT Sans', sans-serif;
+  object-fit: cover;
+  display: flex;
+  font-family: 'PT Sans', sans-serif;
 }
 
 li > ul {
-    display: block;
+  display: block;
 }
+
 ul > li {
-    cursor: move;
-    &:hover {
-        color: #1F275B;
-    }
+  cursor: move;
+  &:hover {
+    color: #7a2a0c;
+  }
 }
+
 li.on-open > ul {
-    display: none;
+  display: none;
 }
-.toggle{
-    cursor: pointer;
+
+.toggle {
+  cursor: pointer;
 }
+
 .toggle > ul {
-    cursor: default;
-    color: #0a0a0a;
+  cursor: default;
+  color: #0a0a0a;
 }
+
 .change-position {
-    border: 1px solid red;
+  border: 1px solid red;
 }
+
 select {
-    display: block;
+  display: block;
 }
+
 button.button-plus,
 button.delete-button {
-    border: none;
-    border-radius: 50%;
-    height: 17px;
-    padding: 0;
-    width: 17px;
-    background-color: transparent;
-    transition: all .3s;
-    outline: none;
-    i {
-        display: inline-block;
-        font-size: 17px;
-        line-height: 23px;
-    }
-    &:hover {
-        color: #FF5624;
-        cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  height: 17px;
+  padding: 0;
+  width: 17px;
+  background-color: transparent;
+  transition: all .3s;
+  outline: none;
+  i {
+    display: inline-block;
+    font-size: 17px;
+    line-height: 23px;
+  }
+  &:hover {
+    color: #FF5624;
+    cursor: pointer;
 
-    }
+  }
 }
 
 #inpCat {
-    border: 1px solid #FF5624;
-    height: 30px;
-    padding-left: 10px;
-    margin-left: 20px;
-    font-size: 14px;
-    letter-spacing: .5px;
+  border: 1px solid #FF5624;
+  height: 30px;
+  padding-left: 10px;
+  margin-left: 20px;
+  font-size: 14px;
+  letter-spacing: .5px;
+  outline: none;
+  transition: all .5s;
+  &:focus {
+    border: 1px solid #fff;
+    border-bottom: 1px solid #FF5624;
+    box-shadow: inset 0px -3px #FF5624;
+
+  }
 }
 
