@@ -95,26 +95,26 @@ export class AddTree {
 
     addCategory() {
         let arrayOfBranches = this.x;
-        let countId = this.countId;
         let difArray = new ArrayDifService();
         let input;
         let inputCatVal;
         let obj = this.categoryObj;
         let li2, ul2;
         let firstUl = this.firstUl;
+        let self = this;
 
         arrayOfBranches.forEach.call(document.querySelectorAll(".button-plus"),
             function (inner: any) {
                 inner.addEventListener("click", (el: any) => {
                     let parrentOfButton = inner.parentNode;
-                    countId++;
+                    self.countId++;
 
                     input = <HTMLInputElement>document.getElementById('inpCat');
                     let inputCatVal = input.value
                     let idOfToggleElement = +(parrentOfButton.id.slice(4));
 
                     obj = {
-                        'id': countId,
+                        'id': self.countId,
                         'category': inputCatVal,  //строка
                         'parent': idOfToggleElement// число 
                     };
@@ -145,12 +145,14 @@ export class AddTree {
 
                     buttonMinus = document.createElement('button');
                     buttonMinus.classList.add('delete-button');
+                    self.deleteFich(buttonMinus)
                     buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>';
 
 
                     buttonPlus = document.createElement('button');
                     buttonPlus.classList.add('button-plus');
                     buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
+                    self.addFich(buttonPlus);
 
                     li2.appendChild(buttonMinus);
                     li2.appendChild(buttonPlus);
@@ -159,16 +161,116 @@ export class AddTree {
                 })
             });
     }
+
+    addFich(ele: any) {
+        let arrayOfBranches = this.x;
+        let difArray = new ArrayDifService();
+        let input;
+        let inputCatVal;
+        let obj = this.categoryObj;
+        let li2, ul2;
+        let firstUl = this.firstUl;
+        let self = this;
+
+
+        ele.addEventListener("click", (el: any) => {
+            let parrentOfButton = ele.parentNode;
+            self.countId++;
+
+            input = <HTMLInputElement>document.getElementById('inpCat');
+            let inputCatVal = input.value
+            let idOfToggleElement = +(parrentOfButton.id.slice(4));
+
+            obj = {
+                'id': self.countId,
+                'category': inputCatVal,  //строка
+                'parent': idOfToggleElement// число 
+            };
+
+
+            arrayOfBranches.push(obj);
+
+            li2 = document.createElement('li');
+            li2.setAttribute('draggable', 'true');
+            li2.setAttribute('id', `vit_${obj.id}`);
+            li2.innerText = `${obj.category}`;
+
+
+            ul2 = document.createElement('ul');
+
+            let parentLi = firstUl.querySelector(`#vit_${obj.parent}`);
+            let buttonMinus;
+            let buttonPlus;
+
+            if (parentLi.childElementCount == 2) {
+                parentLi.className = 'toggle';
+                parentLi.setAttribute('draggable', 'true');
+                parentLi.appendChild(ul2);
+                parentLi.lastChild.appendChild(li2);
+            } else {
+                parentLi.lastChild.appendChild(li2);
+            }
+
+            buttonMinus = document.createElement('button');
+            buttonMinus.classList.add('delete-button');
+            self.deleteFich(buttonMinus);
+            buttonMinus.innerHTML = '<i class="fa fa-minus-square-o" aria-hidden="true"></i>';
+
+
+            buttonPlus = document.createElement('button');
+            buttonPlus.classList.add('button-plus');
+            buttonPlus.innerHTML = '<i class="fa fa-plus-square-o" aria-hidden="true"></i>';
+            self.addFich(buttonPlus);
+
+            li2.appendChild(buttonMinus);
+            li2.appendChild(buttonPlus);
+            console.log(arrayOfBranches)
+
+        })
+
+    }
+    deleteFich(ele: any) {
+        let arrayOfBranches = this.x;
+        let difArray = new ArrayDifService();
+        let self = this;
+
+
+        ele.addEventListener("click", function () {
+            let parrentOfButton = ele.parentNode;
+            let idOfToggleElement = +(parrentOfButton.id.slice(4));
+            parrentOfButton.remove();
+            let arrayOfDeletingId = arr1(arrayOfBranches, idOfToggleElement);
+            difArray.difference(arrayOfBranches, arrayOfDeletingId);
+
+            console.log(self.x);
+
+        });
+
+
+        function arr1(array: any, id: number) {
+            let objIndex: any[] = [];
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].id == id) {
+                    objIndex.push(array[i].id);
+                }
+                if (array[i].parent == id) {
+                    objIndex.push(...arr1(array, array[i].id));
+                }
+            }
+            return objIndex;
+        }
+    }
+
+
     deleteBranch() {
         let arrayOfBranches = this.x;
         let difArray = new ArrayDifService();
-        console.log(this.x)
+        console.log(this.x);
+
         arrayOfBranches.forEach.call(document.querySelectorAll(".delete-button"), addEvLis);
         function addEvLis(inner: any) {
-
             inner.addEventListener("click", function () {
                 console.log(arrayOfBranches)
-
                 let parrentOfButton = inner.parentNode;
                 let idOfToggleElement = +(parrentOfButton.id.slice(4));
                 parrentOfButton.remove();
@@ -176,9 +278,6 @@ export class AddTree {
                 difArray.difference(arrayOfBranches, arrayOfDeletingId);
 
             });
-
-
-
         }
 
 
