@@ -19,13 +19,22 @@ export class AddTree {
     public customParentId: number;
     public div: any;
     public input2: any;
+    public treeLocal: string;
 
     public buttonMinus: any;
     public buttonPlus: any;
 
     constructor() {
-        this.tree = new AddArrayService();
+
         this.toggleAddButton();
+
+        let tree = JSON.parse(localStorage.getItem("tree"))
+        if (tree) {
+            this.tree = tree;
+        } else {
+            this.tree = new AddArrayService().changeTree();
+        }
+
     }
 
     writeln() {
@@ -37,7 +46,8 @@ export class AddTree {
         this.defaultAddTree();
 
 
-        this.firstUl.firstChild.insertBefore(document.createTextNode('Machines'), this.firstUl.firstChild.firstChild);
+        this.firstUl.firstChild.insertBefore(document.createTextNode('Machines'),
+            this.firstUl.firstChild.firstChild);
         this.app.appendChild(this.firstUl);
         this.addCategory();
     }
@@ -54,10 +64,10 @@ export class AddTree {
     }
 
     defaultAddTree() {
-        for (let i = 0; i < this.tree.changeTree().length; i++) {
+        for (let i = 0; i < this.tree.length; i++) {
 
-            this.x = this.tree.changeTree();
-            let li = this.tree.changeTree()[i];
+            this.x = this.tree;
+            let li = this.tree[i];
             let parId = `vit_${li.parent}`;
             let liParent = this.firstUl.querySelector(`#${parId}`);
             if (!liParent) {
@@ -210,9 +220,9 @@ export class AddTree {
                     li2.appendChild(buttonMinus);
                     li2.appendChild(buttonPlus);
                     self.readInputValue(true);
-
                     console.log(arrayOfBranches);
-
+                    let ar = arrayOfBranches;
+                    localStorage.setItem("tree", JSON.stringify(ar))
                 })
             });
     }
@@ -279,7 +289,10 @@ export class AddTree {
 
             li2.appendChild(buttonMinus);
             li2.appendChild(buttonPlus);
+            self.readInputValue(true);
             console.log(arrayOfBranches)
+            let ar = arrayOfBranches;
+            localStorage.setItem("tree", JSON.stringify(ar))
 
         })
 
@@ -298,7 +311,7 @@ export class AddTree {
             let arrayOfDeletingId = arr1(arrayOfBranches, idOfToggleElement);
             difArray.difference(arrayOfBranches, arrayOfDeletingId);
 
-            console.log(self.x);
+            console.log(difArray);
 
         });
 

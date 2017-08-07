@@ -7,21 +7,42 @@ function allowDrop(ev: any) {
 
 function dragElement(ev: any) {
     ev.dataTransfer.setData("text", ev.target.id);
-    console.log('1')
+    console.log('1');
 }
 
 function dropElement(ev: any) {
+    let thisId: any;
+    let secondId: any;
+    let thisTree: any;
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     ev.target.style.border = "";
-    ev.target.style.color = ""
-    for (let i = 0; i < ev.target.childNodes.length; i++) {
-
-
-    }
+    ev.target.style.color = "";
     let ul = document.createElement('ul');
-    ul.appendChild(document.getElementById(data))
+    ul.appendChild(document.getElementById(data));
+    let tree = JSON.parse(localStorage.getItem("tree"))
+    if (tree) {
+        thisTree = tree;
+    } else {
+        thisTree = new AddArrayService().changeTree();
+    }
+    thisId = +(data.slice(4));
+    secondId = +((ev.target.id).slice(4));
+    let parent;
+    thisTree.forEach(function (el: any) {
+        if (el['id'] == thisId) {
+
+            parent = secondId;
+            el['parent'] = parent;
+        }
+    });
     ev.target.appendChild(ul);
+    console.log(tree)
+
+
+    console.log(ev)
+    let ar = thisTree;
+    localStorage.setItem("tree", JSON.stringify(ar))
 
 }
 
@@ -30,7 +51,7 @@ function dragEnter(ev: any) {
 
     ev.target.style.border = "1px dotted #F44336";
     ev.target.style.color = "#F44336"
-    console.log('red')
+    console.log('red');
 
 }
 
