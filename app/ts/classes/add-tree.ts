@@ -21,9 +21,10 @@ export class AddTree {
 
     public buttonMinus: any;
     public buttonPlus: any;
+
     constructor() {
         this.tree = new AddArrayService();
-
+        this.toggleAddButton();
     }
 
     writeln() {
@@ -35,10 +36,13 @@ export class AddTree {
         this.defaultAddTree();
 
 
+
         this.firstUl.firstChild.insertBefore(document.createTextNode('Machines'), this.firstUl.firstChild.firstChild);
         this.app.appendChild(this.firstUl);
         this.addCategory();
     }
+
+
 
     createButtons() {
         this.buttonMinus = document.createElement('button');
@@ -93,6 +97,30 @@ export class AddTree {
 
     }
 
+    keyAps(but: any, toggle: boolean) {
+        but.disabled = toggle;
+    }
+    toggleAddButton() {
+
+        let input2 = <HTMLInputElement>document.getElementById('inpCat');
+        input2.addEventListener('keyup', () => {
+            let buttons = document.querySelectorAll(".button-plus");
+            for (var i = 0; i < buttons.length; i++) {
+                var el = buttons[i];
+                console.log(input2.value.length)
+                if (input2.value.length == 0) {
+                    this.keyAps(el, true);
+                } else {
+                    this.keyAps(el, false);
+
+                }
+
+            }
+        });
+    }
+
+
+
     addCategory() {
         let arrayOfBranches = this.x;
         let difArray = new ArrayDifService();
@@ -103,8 +131,16 @@ export class AddTree {
         let firstUl = this.firstUl;
         let self = this;
 
+
+
         arrayOfBranches.forEach.call(document.querySelectorAll(".button-plus"),
             function (inner: any) {
+                input = <HTMLInputElement>document.getElementById('inpCat');
+
+                let inputCatVal = input.value;
+
+                self.keyAps(inner, true);
+
                 inner.addEventListener("click", (el: any) => {
                     let parrentOfButton = inner.parentNode;
                     self.countId++;
