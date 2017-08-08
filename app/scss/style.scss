@@ -58,9 +58,42 @@ button.delete-button {
   }
 }
 
+button.add-new-cat {
+  color: blue;
+  border: none;
+  height: 40px;
+  width: 50px;
+  cursor: pointer;
+  color: #2C4446;
+  background-color: transparent;
+  border: 1px solid #FF5624;
+  transition: .3s all;
+  position: relative;
+  &:hover {
+    background-color: #FF5624;
+    &:after {
+      content: 'Добавить в корень';
+      position: absolute;
+      top: 5px;
+      left: 55px;
+      padding: 0 10px;
+      height: 30px;
+      width: 200px;
+      line-height: 30px;
+      background-color: red;
+      background-color: #FF5624;
+      opacity: .5;
+      color: #fff;
+    }
+
+  }
+
+}
+
 #inpCat {
   border: 1px solid #FF5624;
-  height: 30px;
+  box-sizing: border-box;
+  height: 40px;
   padding-left: 10px;
   margin-left: 20px;
   font-size: 14px;

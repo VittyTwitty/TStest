@@ -20,7 +20,11 @@ function dropElement(ev: any) {
     ev.target.style.color = "";
     let ul = document.createElement('ul');
     ul.appendChild(document.getElementById(data));
-    ev.target.appendChild(ul);
+    if (!ev.target.appendChild(ul)) {
+        ev.target.appendChild(ul)
+    };
+
+
 
     let tree = JSON.parse(localStorage.getItem("tree"));
 
@@ -34,7 +38,6 @@ function dropElement(ev: any) {
     let parent;
     thisTree.forEach(function (el: any) {
         if (el['id'] == thisId) {
-
             parent = secondId;
             el['parent'] = parent;
         }
